@@ -23,14 +23,19 @@ atmosfera <- datos::atmosfera
 
 ```{r}
 ggplot(atmosfera, aes(presion, temperatura)) +
-  geom_line()
+  geom_point()
 ```
 
 
 2. Calculá la temperatura media de cada mes y visualizalo en un gráfico de líneas.(Es decir, el ciclo anual promedio de temperatura). ¿Cómo describirías el ciclo anual en pocas palabras?
 
 ```{r}
-
+  atmosfera |>
+  group_by(anio, mes) |>
+  summarise(temperatura_media = mean(temperatura)) |>
+  ggplot(aes(anio, temperatura_media)) +
+  geom_point(aes(color = factor(mes))) +
+  geom_line(aes(group = mes, color = factor(mes)))
 ```
 
 
@@ -41,7 +46,14 @@ Acordate del tema de los grupos y las líneas.)
 ¿Cómo cambia tu descripción del ciclo anual ahora?
 
 ```{r}
-
+atmosfera |>
+  mutate(hemisferio = ifelse(latitud < 0, "Sur","Norte")) |>
+  group_by(anio, mes, hemisferio) |>
+  summarise(temperatura_media = mean(temperatura)) |>
+  ggplot(aes(anio, temperatura_media)) +
+  geom_point(aes(color = factor(mes))) +
+  geom_line(aes(group = mes, color = factor(mes))) +
+  facet_wrap(~hemisferio)
 ```
 
 
