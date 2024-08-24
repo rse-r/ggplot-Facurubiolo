@@ -22,7 +22,8 @@ atmosfera <- datos::atmosfera
 ¿Es una relación lineal más o menos limpia o hay otras cosas “raras”?
 
 ```{r}
-
+ggplot(atmosfera, aes(presion, temperatura)) +
+  geom_line()
 ```
 
 
